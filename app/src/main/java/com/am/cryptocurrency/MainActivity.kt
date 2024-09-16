@@ -42,9 +42,8 @@ class MainActivity : ComponentActivity() {
                                 coinId: String -> navController.navigate(Screen.CoinDetailsScreen.route + "/${coinId}")
                             }
                             CoinsListScreen(
-                                coinsStateFlow = coinsListViewModel.coinsState,
+                                coinsListViewModel,
                                 onClick = navigate,
-                                reload = coinsListViewModel::reload,
                                 Modifier
                                     .fillMaxSize()
                                     .padding(

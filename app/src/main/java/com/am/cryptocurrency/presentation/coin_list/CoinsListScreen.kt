@@ -33,17 +33,16 @@ import com.am.cryptocurrency.presentation.common.DancingText
 import com.am.cryptocurrency.presentation.common.ErrorPage
 import com.am.cryptocurrency.presentation.common.ErrorType
 import com.am.cryptocurrency.presentation.ui.theme.CryptocurrencyTheme
-import kotlinx.coroutines.flow.StateFlow
 import okhttp3.internal.toImmutableList
 
 @Composable
 fun CoinsListScreen(
-    coinsStateFlow: StateFlow<CoinsState>,
+    coinListViewModel: CoinListViewModel,
     onClick: (String) -> Unit,
-    reload: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val coinsState by coinsStateFlow.collectAsState()
+
+    val coinsState by coinListViewModel.coinsState.collectAsState()
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
@@ -60,7 +59,7 @@ fun CoinsListScreen(
             else
                 ErrorPage(
                     error ?: ErrorType.UNEXPECTED_ERROR,
-                    reload = reload
+                    reload = coinListViewModel::reload
                 )
         }
     }

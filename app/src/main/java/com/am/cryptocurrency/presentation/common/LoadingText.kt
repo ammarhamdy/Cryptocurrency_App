@@ -13,6 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.am.cryptocurrency.presentation.ui.theme.CryptocurrencyTheme
 import okhttp3.internal.toImmutableList
@@ -32,7 +36,8 @@ fun DancingText(
     text: String,
     modifier: Modifier = Modifier
 ) {
-    val dancingTexts = remember { getDancingTexts(text) }
+    val color = MaterialTheme.colorScheme.primary
+    val dancingTexts = remember { getColoredDancingTexts(text, color) }
     val infiniteTransition = rememberInfiniteTransition(label = "infinite_transition")
     val index by infiniteTransition.animateValue(
         initialValue = 0,
@@ -40,10 +45,10 @@ fun DancingText(
         typeConverter = AnimationPro.StringInterpolator,
         animationSpec = infiniteRepeatable(
             animation = tween(
-                durationMillis = (text.length / 2) * 900,
+                durationMillis = (text.length / 2) * 1000,
                 delayMillis = 100,
                 easing = AnimationPro.getFaster
-        )
+            )
         ),
         label = "index animation"
     )
@@ -54,14 +59,18 @@ fun DancingText(
     )
 }
 
-private fun getDancingTexts(text: String) =
-    List(text.length + 1){ index ->
-        if (index == text.length) text
-        else text.substring(0, index) +
-                (if (text[index] == '.') ' ' else text[index].uppercase()) +
-                text.substring(index+1)
-    }.toImmutableList()
-
+private fun getColoredDancingTexts(value: String, color: Color) = List(value.length + 1) { i ->
+    buildAnnotatedString {
+        if (i == value.length) append(value)
+        else {
+            append(value.substring(0, i))
+            withStyle(style = SpanStyle(color)) {
+                append(if (value[i] == '.') '۔' else value[i].uppercaseChar())
+            }
+            append(value.substring(i+1))
+        }
+    }
+}.toImmutableList()
 
 @Preview
 @Composable
