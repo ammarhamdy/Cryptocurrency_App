@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Cryptocurrency</string>
+    <string name="loading" tools:ignore="TypographyEllipsis">loading...</string>
+    <string name="active">active</string>
+    <string name="not_active">not active</string>
+    <string name="connection_error">connection error</string>
+    <string name="unexpected_error">unexpected error</string>
+    <string name="reload">reload</string>
+</resources>
